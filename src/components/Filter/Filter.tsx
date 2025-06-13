@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, ReactNode } from "react";
+import { FormEvent, Fragment, ReactNode } from "react";
 
 import { Label } from "../Label";
 
@@ -11,6 +11,7 @@ export type FilterItemType = {
   inputs: {
     node: ReactNode;
   }[];
+  ratio: number;
 };
 
 export type FilterType = {
@@ -35,14 +36,18 @@ export default function Filter({
   return (
     <form onSubmit={handleSubmit}>
       <div className="w-full p-4 bg-gray-100 rounded-[6px] flex flex-col gap-y-3">
-        <ul className="flex w-full h-full flex-wrap gap-2">
+        <ul className="grid grid-rows-1 grid-cols-5 w-full h-full gap-2">
           {items?.map((item, index) => {
             return (
-              <li key={index} className="flex-1 flex flex-col gap-y-2">
+              <li
+                key={index}
+                className="flex flex-col gap-y-2"
+                style={{ gridColumn: `span ${item.ratio}` }}
+              >
                 <Label className="text-gray-500 body03r">{item.title}</Label>
-                <div>
+                <div className="flex w-full gap-x-2">
                   {item.inputs.map(({ node }, index) => (
-                    <div key={index}>{node}</div>
+                    <Fragment key={index}>{node}</Fragment>
                   ))}
                 </div>
               </li>

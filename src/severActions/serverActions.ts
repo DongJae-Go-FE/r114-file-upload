@@ -17,13 +17,11 @@ export async function handleLogout() {
 
 export async function handleLogin(formData: FormData) {
   try {
-    const response = await signIn("credentials", {
+    await signIn("credentials", {
       id: formData.get("id"),
       password: formData.get("password"),
       redirect: false,
     });
-    console.log(response, "로그인 응답");
-    return response;
   } catch (error) {
     console.error(error);
   }

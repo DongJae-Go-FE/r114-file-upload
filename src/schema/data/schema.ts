@@ -1,10 +1,13 @@
 import { z } from "zod";
 
 export const GET_DATA_SEND_SCHEMA = z.object({
+  id: z.number(),
   dataName: z.string(),
   sendDate: z.string(),
   service: z.string(),
+  addCycle: z.string(),
   addId: z.string(),
+  addName: z.string(),
   addState: z.string(),
   addDate: z.string(),
 });
@@ -12,7 +15,7 @@ export const GET_DATA_SEND_SCHEMA = z.object({
 export const POST_DATA_SEND_SCHEMA = z.object({
   dataName: z.string(),
   addCycle: z.string(),
-  service: z.string(),
+  service: z.array(z.string()),
   fileList: z.array(z.string()),
 });
 
