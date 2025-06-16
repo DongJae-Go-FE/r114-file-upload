@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 import { cva, type VariantProps } from "class-variance-authority";
 
 const EmptyVariants = cva(
-  "flex flex-col items-center justify-center py-2 text-gray-500",
+  "flex flex-col items-center justify-center py-2 text-gray-500 text-center whitespace-pre-wrap",
   {
     variants: {
       size: {

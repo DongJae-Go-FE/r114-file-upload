@@ -43,8 +43,8 @@ export function CommonDataNameSelect({
       <SelectContent className="max-h-60 overflow-y-auto">
         <SelectScrollUpButton />
         {isAll && <SelectItem value="0">전체</SelectItem>}
-        <SelectItem value="1">on</SelectItem>
-        <SelectItem value="2">off</SelectItem>
+        <SelectItem value="1">리스트1</SelectItem>
+        <SelectItem value="2">리스트2</SelectItem>
         <SelectScrollDownButton />
       </SelectContent>
     </Select>

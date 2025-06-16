@@ -8,7 +8,6 @@ import {
   useTransition,
   CSSProperties,
   Fragment,
-  useEffect,
 } from "react";
 
 import Spinner from "../Spinner";
@@ -24,9 +23,10 @@ interface FileUploadProps
    * 파일 업로드 API
    */
   onUpload?: (file: File) => Promise<unknown>;
-  onEvent?: (e: number) => void;
-  fileStep: number;
+
   fileSize?: number;
+  limit?: number;
+  onLimitOver?: () => void;
 }
 
 import { Button } from "../Button";
@@ -42,8 +42,6 @@ export default function Upload({
   accept,
   onUpload = test,
   fileSize = 1,
-  fileStep,
-  onEvent,
 }: FileUploadProps) {
   const componentId = useId();
   const [fileState, setFileState] = useState<{
@@ -55,8 +53,6 @@ export default function Upload({
   const [isFinished, setIsFinished] = useState(false);
   const [isFail, setIsFail] = useState(false);
   const [isPending, startTransition] = useTransition();
-
-  const [componentStep, setComponentStep] = useState(1);
 
   const progress = useMemo(() => {
     if (!fileState) return 0;
@@ -70,12 +66,6 @@ export default function Upload({
   });
 
   const MAX_FILE_SIZE = fileSize * 1024 * 1024;
-
-  const handleOnEventChange = (e: number) => {
-    if (onEvent) {
-      onEvent(e);
-    }
-  };
 
   const handleChange = async (files: FileList) => {
     const file = files.item(0);
@@ -106,10 +96,6 @@ export default function Upload({
           isSuccess: true,
         });
         setIsFail(false);
-        setComponentStep(2);
-        if (onEvent) {
-          handleOnEventChange(2);
-        }
       });
     } catch {
       setFileState({
@@ -122,16 +108,6 @@ export default function Upload({
       setIsFinished(true);
     }
   };
-
-  useEffect(() => {
-    if (fileStep === 4) {
-      setFileState(() => null);
-
-      if (onEvent) {
-        onEvent(1);
-      }
-    }
-  }, [fileStep, fileState, onEvent]);
 
   const dragAreaStyle =
     "w-full h-[calc(100%-80px)] border border-dashed border-gray-400 rounded-xl flex justify-center items-center flex-col gap-y-2 relative";
@@ -156,8 +132,8 @@ export default function Upload({
           accept={accept}
           onChange={({ target: { files } }) => {
             if (files) {
-              if (files.length > 1) {
-                alert("파일은 하나만 업로드 가능합니다.");
+              if (files.length > 3) {
+                alert("파일은 3개까지만 업로드 가능합니다.");
               } else {
                 handleChange(files);
               }
@@ -172,11 +148,7 @@ export default function Upload({
           onDrop={(e) => {
             e.preventDefault();
             if (e.dataTransfer.files) {
-              if (e.dataTransfer.files.length > 1) {
-                alert("파일은 하나만 업로드 가능합니다.");
-              } else {
-                handleChange(e.dataTransfer.files);
-              }
+              handleChange(e.dataTransfer.files);
             }
           }}
         >
@@ -206,12 +178,12 @@ export default function Upload({
                 <div className={progressStyle} style={progressAddStyle}>
                   <style>
                     {`
-            .progress::after {
-              content: '';
-              width: var(--progress-width);
-              background-color: var(--progress-bg-color);
-            }
-            `}
+                    .progress::after {
+                        content: '';
+                        width: var(--progress-width);
+                        background-color: var(--progress-bg-color);
+                        }
+                    `}
                   </style>
                 </div>
                 <span
@@ -248,56 +220,6 @@ export default function Upload({
                 </div>
               </div>
             </li>
-            {componentStep === 2 && (
-              <li className="flex flex-col w-full border-b pb-4">
-                <h4 className="heading04b">2. 테이블 생성</h4>
-                <div className="flex items-center gap-x-2 mb-2">
-                  <div className={progressStyle} style={progressAddStyle}>
-                    <style>
-                      {`
-            .progress::after {
-              content: '';
-              width: var(--progress-width);
-              background-color: var(--progress-bg-color);
-            }
-            `}
-                    </style>
-                  </div>
-                  <span
-                    className={`body02r ${
-                      isFinished ? "text-gray-900" : "text-gray-500"
-                    }`}
-                  >
-                    {count}%
-                  </span>
-                </div>
-                <div className="flex">
-                  <div className="w-13 h-13 rounded-[6px] flex shrink-0 items-center justify-center bg-white border mr-2 relative">
-                    {fileState.isLoading ? (
-                      <Spinner className="w-6 h-6" />
-                    ) : fileState.isSuccess ? (
-                      renderFileIcon()
-                    ) : (
-                      renderErrorIcon()
-                    )}
-                  </div>
-                  <div className="flex flex-col w-[calc(100%-64px)]">
-                    <span
-                      className={`truncate body01m ${
-                        !fileState.isLoading && !fileState.isSuccess
-                          ? "text-red-500"
-                          : "text-gray-900"
-                      }`}
-                    >
-                      {fileState.file?.name}
-                    </span>
-                    <span className="truncate body02r text-gray-500">
-                      {convertByteToString(fileState.file?.size || 0)}
-                    </span>
-                  </div>
-                </div>
-              </li>
-            )}
           </ul>
         ) : (
           <div className="w-full h-[calc(100%-80px)] flex justify-center items-center flex-col gap-y-2">

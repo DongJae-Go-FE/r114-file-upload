@@ -122,7 +122,7 @@ function SideBar() {
   return (
     <div aria-expanded={isOpen ? true : false} className={sideBarStyle}>
       <div className="flex items-center justify-center h-[117px] border-b">
-        <h4 className="heading04b">REPS 5.0 Admin</h4>
+        <h4 className="heading04b">File Upload System</h4>
       </div>
       <div className="w-full h-30 border-b border-gray-200">
         <div className="w-full h-full p-4 body03b">
