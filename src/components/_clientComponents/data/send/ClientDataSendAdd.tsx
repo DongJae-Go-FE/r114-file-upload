@@ -247,8 +247,6 @@ export default function ClientDataSendAdd() {
                           }
                         };
 
-                        const isSelfChecked = field.value.includes("self");
-
                         return (
                           <FormItem>
                             <FormControl>
@@ -275,10 +273,10 @@ export default function ClientDataSendAdd() {
                                 <li className="flex gap-x-1 items-center">
                                   <Checkbox
                                     id="self"
-                                    checked={isSelfChecked}
+                                    checked={isOpen}
                                     onCheckedChange={() => {
-                                      setIsOpen(!isSelfChecked);
-                                      if (!isSelfChecked) setValue("");
+                                      setIsOpen(!isOpen);
+                                      if (!isOpen) setValue("");
                                     }}
                                   />
                                   <Label
