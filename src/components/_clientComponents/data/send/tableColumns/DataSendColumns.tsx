@@ -11,7 +11,7 @@ import { GET_DATA_SEND_SCHEMA } from "@/schema/data/schema";
 const DataSendColumns: ColumnDef<z.infer<typeof GET_DATA_SEND_SCHEMA>>[] = [
   {
     accessorKey: "dataName",
-    header: () => <div className="w-full text-center">데이터명</div>,
+    header: () => <div className="w-full text-center">데이터 명</div>,
     cell: ({ row }) => (
       <Link
         className="underline underline-offset-2 text-center block"
