@@ -462,6 +462,7 @@ export default function ClientDataSendDetail({ id }: { id: string }) {
               schema={GET_DATA_ADD_RECORD_SCHEMA}
               columns={DataSendDetailColumns}
               data={data}
+              isTableHeader={false}
             />
           </div>
           <div>
