@@ -11,7 +11,7 @@ import { GET_DATA_SEND_SCHEMA } from "@/schema/data/schema";
 const DataSendColumns: ColumnDef<z.infer<typeof GET_DATA_SEND_SCHEMA>>[] = [
   {
     accessorKey: "dataName",
-    header: () => <div className="w-full text-center">업데이트 사유</div>,
+    header: () => <div className="w-full text-center">데이터명</div>,
     cell: ({ row }) => (
       <Link
         className="underline underline-offset-2 text-center block"
@@ -46,7 +46,7 @@ const DataSendColumns: ColumnDef<z.infer<typeof GET_DATA_SEND_SCHEMA>>[] = [
         className="table-header-button"
         onClick={() => column.toggleSorting()}
       >
-        사업자 구분
+        반영 서비스
         <ArrowUpDown />
       </button>
     ),

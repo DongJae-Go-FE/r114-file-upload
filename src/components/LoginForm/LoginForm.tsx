@@ -1,6 +1,6 @@
 "use client";
 
-import { ComponentPropsWithoutRef, useState, useTransition } from "react";
+import { ComponentPropsWithoutRef, useState } from "react";
 
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -29,14 +29,11 @@ export default function LoginForm({
   ...props
 }: ComponentPropsWithoutRef<"div">) {
   const [state, setState] = useState(0);
-  const [isOk, setIsOk] = useState(false);
-  const [isPending, startTransition] = useTransition();
 
   const {
     register: loginRegister,
     handleSubmit: handleHookFormLoginSubmit,
     formState: { errors: errorsLogin, isLoading: isLoginLoading },
-    // reset: loginReset,
   } = useForm<LoginFormData>({
     resolver: zodResolver(POST_LOGIN_SCHEMA),
   });
@@ -45,8 +42,6 @@ export default function LoginForm({
     register: AddRegister,
     handleSubmit: handleHookFormAddSubmit,
     formState: { errors: errorsAdd, isLoading: isAddLoading },
-    getValues: getAddValues,
-    watch: addWatch,
     reset: addReset,
   } = useForm<LoginMemberAddFormData>({
     resolver: zodResolver(POST_LOGIN_MEMBER_ADD_SCHEMA),
@@ -82,7 +77,7 @@ export default function LoginForm({
         await handleAdminAdd(formData);
         addReset();
         alert(
-          "관리자 등록 신청이 완료 되었습니다. 신청서 검토후 심사 여부를 안내해드리겠습니다."
+          "등록 신청이 완료 되었습니다. 신청서 검토후 심사 여부를 안내해드리겠습니다."
         );
         setState(0);
       } catch (e) {
@@ -90,20 +85,6 @@ export default function LoginForm({
       }
     }
   };
-
-  const handleValidCheck = async () => {
-    try {
-      startTransition(() => {
-        getAddValues("id");
-        setIsOk(true);
-        alert("아이디 중복체크를 완료하였습니다.");
-      });
-    } catch (e) {
-      alert(e);
-    }
-  };
-
-  const idValid = addWatch("id");
 
   const renderForm = () => {
     switch (state) {
@@ -168,20 +149,18 @@ export default function LoginForm({
                   </Button>
                 </div>
                 <div className="mt-5 text-center body02r text-gray-600">
-                  아이디/비밀번호 찾기는 REPS관리자에게 문의 바랍니다. <br />{" "}
-                  {/* REPS 관리자 문의 010.3249.3559 */}
+                  아이디/비밀번호 분실시 관리자에게 문의바랍니다.
                 </div>
 
-                {/* <button
+                <button
                   type="button"
                   className="block body02b m-auto mt-2 underline underline-offset-4"
                   onClick={() => {
                     setState(1);
-                    loginReset();
                   }}
                 >
                   계정 발급 신청
-                </button> */}
+                </button>
               </form>
             </CardContent>
           </Card>
@@ -192,7 +171,7 @@ export default function LoginForm({
           <Card>
             <CardHeader>
               <CardTitle className="text-2xl">
-                REPS/RCS 통합 관리자 등록 신청서
+                데이터 관리자 등록 신청서
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -228,38 +207,7 @@ export default function LoginForm({
                       </p>
                     )}
                   </div>
-                  <div className="grid gap-2">
-                    <Label htmlFor="id">아이디</Label>
-                    <div className="flex gap-x-1">
-                      <Input
-                        id="id"
-                        type="text"
-                        placeholder="사용하실 아이디를 기재해주세요."
-                        disabled={isAddLoading}
-                        {...AddRegister("id")}
-                      />
-                      <Button
-                        type="button"
-                        size="md"
-                        color="white"
-                        disabled={
-                          (idValid || "").length < 5 || isPending || isOk
-                        }
-                        onClick={handleValidCheck}
-                      >
-                        {isPending ? (
-                          <Spinner className="w-2 h-2" />
-                        ) : (
-                          "아이디 중복체크"
-                        )}
-                      </Button>
-                    </div>
-                    {errorsAdd.id && (
-                      <p className="body03m text-red-500">
-                        {errorsAdd.id.message}
-                      </p>
-                    )}
-                  </div>
+
                   <div className="grid gap-2">
                     <Label htmlFor="team">소속된 팀/부서</Label>
                     <Input
@@ -300,7 +248,7 @@ export default function LoginForm({
                       {isAddLoading ? (
                         <Spinner className="w-4 h-4" />
                       ) : (
-                        "관리자 등록 신청"
+                        "데이터 등록 시작"
                       )}
                     </Button>
                     <Button
@@ -311,7 +259,6 @@ export default function LoginForm({
                       disabled={isAddLoading}
                       onClick={() => {
                         setState(0);
-                        setIsOk(false);
                         addReset();
                       }}
                     >
