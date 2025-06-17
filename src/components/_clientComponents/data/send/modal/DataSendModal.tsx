@@ -19,7 +19,7 @@ import Spinner from "@/components/Spinner";
 
 import RadioBtn from "./RadioBtn";
 
-import { INPUT_MAX_LENGTH, INPUT_MIN_LENGTH } from "@/const/const";
+import { INPUT_MAX_LENGTH } from "@/const/const";
 
 const data = Array.from({ length: 53 }, (_, i) => ({
   id: (i + 1).toString(),
@@ -90,7 +90,6 @@ export default function DataSendModal() {
               type="text"
               placeholder="데이터 명을 입력해주세요"
               value={search}
-              minLength={INPUT_MIN_LENGTH}
               maxLength={INPUT_MAX_LENGTH}
               disabled={isLoading}
               onChange={(e) => setSearch(e.target.value)}
