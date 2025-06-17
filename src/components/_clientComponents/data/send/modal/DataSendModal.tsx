@@ -19,6 +19,8 @@ import Spinner from "@/components/Spinner";
 
 import RadioBtn from "./RadioBtn";
 
+import { INPUT_MAX_LENGTH, INPUT_MIN_LENGTH } from "@/const/const";
+
 const data = Array.from({ length: 53 }, (_, i) => ({
   id: (i + 1).toString(),
   name: `테스트${i + 1}`,
@@ -88,6 +90,8 @@ export default function DataSendModal() {
               type="text"
               placeholder="데이터 명을 입력해주세요"
               value={search}
+              maxLength={INPUT_MIN_LENGTH}
+              minLength={INPUT_MAX_LENGTH}
               disabled={isLoading}
               onChange={(e) => setSearch(e.target.value)}
               onKeyDown={handleSearchEnter}
@@ -108,7 +112,7 @@ export default function DataSendModal() {
             <h4 className="sub-title">
               데이터명 목록(총 {!isLoading ? filteredData.length : "0"}개)
             </h4>
-            <ul className="flex flex-wrap w-full h-[165px] overflow-y-auto">
+            <ul className="flex flex-wrap w-full h-[166px] overflow-y-auto content-baseline">
               {isLoading ? (
                 <li className="w-full h-[165px] relative">
                   <Spinner />
@@ -125,7 +129,7 @@ export default function DataSendModal() {
                 filteredData.map((item) => (
                   <li
                     key={item.id}
-                    className="w-1/2 border-gray-200 border-b border-r nth-[1]:border-t nth-[2]:border-t odd:border-l has-checked:border-gray-900 transition-colors duration-200"
+                    className="w-1/2 border-gray-200 border-b border-r nth-[1]:border-t nth-[2]:border-t odd:border-l has-checked:border-gray-900 transition-colors duration-200 h-fit"
                   >
                     <RadioBtn id={item.id} name="data-list">
                       {item.name}
@@ -138,7 +142,11 @@ export default function DataSendModal() {
               <Button
                 type="button"
                 color="red"
-                onClick={() => setIsOpen(false)}
+                onClick={() => {
+                  setIsOpen(false);
+                  setSearch("");
+                  setSearchTerm("");
+                }}
               >
                 닫기
               </Button>

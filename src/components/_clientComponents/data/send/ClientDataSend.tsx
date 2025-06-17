@@ -72,10 +72,12 @@ export default function ClientDataSend() {
   const handleFilterSubmit = () => {
     handleSubmit({
       ...filter,
+      searchKeyword: searchInput,
     });
   };
 
   const handleFilterReset = () => {
+    setSearchInput("");
     handleReset();
   };
 

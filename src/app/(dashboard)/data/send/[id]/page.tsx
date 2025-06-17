@@ -1,6 +1,7 @@
 import { Fragment } from "react";
 
 import PageHeader from "@/components/PageHeader";
+import ClientDataSendDetail from "@/components/_clientComponents/data/send/ClientDataSendDetail";
 
 export default async function Page({
   params,
@@ -24,6 +25,7 @@ export default async function Page({
           },
         ]}
       />
+      <ClientDataSendDetail id={id} />
     </Fragment>
   );
 }

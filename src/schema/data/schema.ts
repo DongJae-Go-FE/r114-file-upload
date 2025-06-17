@@ -22,14 +22,15 @@ export const POST_DATA_SEND_SCHEMA = z.object({
 export const PUT_DATA_SEND_SCHEMA = z.object({
   dataName: z.string(),
   addCycle: z.string(),
-  service: z.string(),
+  service: z.array(z.string()),
   fileList: z.array(z.string()),
   reason: z.string(),
 });
 
 export const GET_DATA_ADD_RECORD_SCHEMA = z.object({
+  addDate: z.string(),
   dataName: z.string(),
   addState: z.string(),
   addReason: z.string(),
-  addId: z.string(),
+  id: z.string(),
 });

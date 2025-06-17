@@ -32,11 +32,19 @@ import {
 
 import { ServerProgress } from "@/components/ServerProgress";
 
-import DataSendModal from "./modal/DataSendModal";
+import { DataTable } from "@/components/DataTable";
 
-import { POST_DATA_SEND_SCHEMA } from "@/schema/data/schema";
+import DataSendModal from "./modal/DataSendModal";
+import DataSendDetailColumns from "./tableColumns/DataSendDetailColumns";
+
+import { Textarea } from "@/components/Textarea";
 
 import { TXT_MAX_LENGTH, INPUT_MIN_LENGTH } from "@/const/const";
+
+import {
+  PUT_DATA_SEND_SCHEMA,
+  GET_DATA_ADD_RECORD_SCHEMA,
+} from "@/schema/data/schema";
 
 const services = [
   { id: "ris", label: "RIS" },
@@ -46,7 +54,40 @@ const services = [
   { id: "r114", label: "R114 홈페이지" },
 ];
 
-export default function ClientDataSendAdd() {
+export const data = [
+  {
+    addDate: "2024-12-15",
+    dataName: "사용자 프로필 데이터",
+    addState: "completed",
+    addReason: "신규 회원 가입으로 인한 데이터 추가",
+    id: "usr_001_20241215",
+  },
+  {
+    addDate: "2024-12-14",
+    dataName: "상품 카테고리 정보",
+    addState: "pending",
+    addReason: "새로운 카테고리 분류 체계 도입",
+    id: "cat_002_20241214",
+  },
+  {
+    addDate: "2024-12-13",
+    dataName: "결제 트랜잭션 로그",
+    addState: "failed",
+    addReason: "시스템 오류로 인한 데이터 복구 작업",
+    id: "txn_003_20241213",
+  },
+  {
+    addDate: "2024-12-12",
+    dataName: "고객 피드백 설문",
+    addState: "processing",
+    addReason: "분기별 고객 만족도 조사 데이터 수집",
+    id: "fbk_004_20241212",
+  },
+];
+
+export default function ClientDataSendDetail({ id }: { id: string }) {
+  console.log(id);
+
   const { push } = useRouter();
 
   const [fileList, setFileList] = useState<
@@ -68,13 +109,14 @@ export default function ClientDataSendAdd() {
   const [isUploadLoading, setIsUploadLoading] = useState(false);
   const [isBtnLoading, setIsBtnLoading] = useState(false);
 
-  const form = useForm<z.infer<typeof POST_DATA_SEND_SCHEMA>>({
-    resolver: zodResolver(POST_DATA_SEND_SCHEMA),
+  const form = useForm<z.infer<typeof PUT_DATA_SEND_SCHEMA>>({
+    resolver: zodResolver(PUT_DATA_SEND_SCHEMA),
     defaultValues: {
       dataName: "",
       addCycle: "",
       service: [],
       fileList: [],
+      reason: "",
     },
   });
 
@@ -414,12 +456,41 @@ export default function ClientDataSendAdd() {
               </Button>
             </div>
           </div>
+          <div>
+            <h4 className="sub-title">등록 이력</h4>
+            <DataTable
+              schema={GET_DATA_ADD_RECORD_SCHEMA}
+              columns={DataSendDetailColumns}
+              data={data}
+            />
+          </div>
+          <div>
+            <h4 className="sub-title">
+              등록 사유 <span className="attention">*</span>
+            </h4>
+            <FormField
+              control={form.control}
+              name="reason"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Textarea
+                      {...field}
+                      maxLength={TXT_MAX_LENGTH}
+                      placeholder="20자 내외로 입력하세요."
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
           <div className="btn-area">
             <Button type="button" color="white" onClick={handleCancel}>
               취소
             </Button>
             <Button type="button" onClick={handleSave} disabled={step !== 4}>
-              확인
+              저장
             </Button>
           </div>
         </div>
