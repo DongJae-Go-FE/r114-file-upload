@@ -90,8 +90,8 @@ export default function DataSendModal() {
               type="text"
               placeholder="데이터 명을 입력해주세요"
               value={search}
-              maxLength={INPUT_MIN_LENGTH}
-              minLength={INPUT_MAX_LENGTH}
+              minLength={INPUT_MIN_LENGTH}
+              maxLength={INPUT_MAX_LENGTH}
               disabled={isLoading}
               onChange={(e) => setSearch(e.target.value)}
               onKeyDown={handleSearchEnter}
