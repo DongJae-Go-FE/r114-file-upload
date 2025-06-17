@@ -34,6 +34,8 @@ import { ServerProgress } from "@/components/ServerProgress";
 
 import DataSendModal from "./modal/DataSendModal";
 
+import { X } from "lucide-react";
+
 import { POST_DATA_SEND_SCHEMA } from "@/schema/data/schema";
 
 import { TXT_MAX_LENGTH, INPUT_MIN_LENGTH } from "@/const/const";
@@ -56,6 +58,7 @@ export default function ClientDataSendAdd() {
   const [value, setValue] = useState("");
   const [step, setStep] = useState(1);
 
+  const [isModal, setIsModal] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
 
   const [deployState, setDeployState] = useState({
@@ -187,7 +190,33 @@ export default function ClientDataSendAdd() {
       <form onSubmit={form.handleSubmit(handleSave)} className="space-y-8">
         <div className="flex flex-col gap-6">
           <div>
-            <h4 className="sub-title">1. 데이터 정보 입력</h4>
+            <h4 className="sub-title relative">
+              1. 데이터 정보 입력{" "}
+              {isModal && (
+                <div className="absolute right-0 w-80 p-3 bg-white border border-gray-200">
+                  <h5 className="body01b mb-1 flex justify-between items-center">
+                    데이터 등록 안내{" "}
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setIsModal(false);
+                      }}
+                    >
+                      <X className="w-4 h-4" />
+                    </button>
+                  </h5>
+                  <ul className="flex flex-col gap-y-1 body03m">
+                    <li>- 데이터 명을 검색하여 선택할 수 있습니다.</li>
+                    <li>- 건축물대장은 총 7개의 개별 파일을 등록해야합니다.</li>
+                    <li>
+                      - 파일 첨부 &gt; 개발서버 적용 &gt; 운영서버 적용까지
+                      완료해야 <br />
+                      &nbsp;&nbsp; 등록이 완료됩니다.
+                    </li>
+                  </ul>
+                </div>
+              )}
+            </h4>
             <DescriptionTable>
               <tbody>
                 <tr>
