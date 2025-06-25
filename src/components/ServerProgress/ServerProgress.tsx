@@ -55,7 +55,7 @@ export default function ServerProgress({
 
       const interval = setInterval(() => {
         const elapsed = Date.now() - start;
-        const percent = Math.min((elapsed / duration) * 100, 100); // * 1 → * 100으로 변경
+        const percent = Math.min((elapsed / duration) * 100, 100);
         dispatch({ type: "SET_PROGRESS", payload: percent });
 
         if (percent >= 100) {
