@@ -151,8 +151,16 @@ export default function ClientDataSendDetail({ id }: { id: string }) {
     setIsUploadLoading(false);
   };
 
-  const handleDeleteFile = (id: string) => {
-    setFileList((prev) => prev.filter((file) => file.id !== id));
+  const handleDeleteFile = async (id: string) => {
+    setFileList((prev) => {
+      const newFileList = prev.filter((file) => file.id !== id);
+
+      if (newFileList.length === 0) {
+        setStep(1);
+      }
+
+      return newFileList;
+    });
   };
 
   const handleRegister = async () => {
@@ -216,8 +224,12 @@ export default function ClientDataSendDetail({ id }: { id: string }) {
   };
 
   const handleSave = async () => {
-    alert("저장되었습니다.");
-    push("/data/send");
+    try {
+      alert("저장되었습니다.");
+      push("/data/send");
+    } catch (e) {
+      alert(e);
+    }
   };
 
   const handleCancel = () => {
@@ -424,7 +436,10 @@ export default function ClientDataSendDetail({ id }: { id: string }) {
                 type="button"
                 onClick={handleDevDeploy}
                 disabled={
-                  deployState.devComplete || fileList.length === 0 || step !== 2
+                  deployState.devComplete ||
+                  fileList.length === 0 ||
+                  step !== 2 ||
+                  isUploadLoading
                 }
               >
                 개발서버 적용

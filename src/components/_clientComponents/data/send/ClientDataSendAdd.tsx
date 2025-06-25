@@ -112,8 +112,16 @@ export default function ClientDataSendAdd() {
     setIsUploadLoading(false);
   };
 
-  const handleDeleteFile = (id: string) => {
-    setFileList((prev) => prev.filter((file) => file.id !== id));
+  const handleDeleteFile = async (id: string) => {
+    setFileList((prev) => {
+      const newFileList = prev.filter((file) => file.id !== id);
+
+      if (newFileList.length === 0) {
+        setStep(1);
+      }
+
+      return newFileList;
+    });
   };
 
   const handleRegister = async () => {
@@ -177,8 +185,12 @@ export default function ClientDataSendAdd() {
   };
 
   const handleSave = async () => {
-    alert("저장되었습니다.");
-    push("/data/send");
+    try {
+      alert("저장되었습니다.");
+      push("/data/send");
+    } catch (e) {
+      alert(e);
+    }
   };
 
   const handleCancel = () => {
