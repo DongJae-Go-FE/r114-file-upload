@@ -199,7 +199,7 @@ export default function ClientDataSendDetail({ id }: { id: string }) {
       setIsBtnLoading(true);
 
       try {
-        await new Promise((resolve) => setTimeout(resolve, 3100));
+        await new Promise((resolve) => setTimeout(resolve, 1500));
         setStep(3);
         setIsBtnLoading(false);
       } catch (e) {
@@ -214,7 +214,7 @@ export default function ClientDataSendDetail({ id }: { id: string }) {
       setIsBtnLoading(true);
 
       try {
-        await new Promise((resolve) => setTimeout(resolve, 3100));
+        await new Promise((resolve) => setTimeout(resolve, 1500));
         setStep(4);
         setIsBtnLoading(false);
       } catch (e) {
