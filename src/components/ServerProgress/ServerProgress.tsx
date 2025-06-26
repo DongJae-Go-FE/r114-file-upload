@@ -51,7 +51,7 @@ export default function ServerProgress({
       dispatch({ type: "START" });
 
       const start = Date.now();
-      const duration = 100;
+      const duration = 1000;
 
       const interval = setInterval(() => {
         const elapsed = Date.now() - start;
@@ -62,7 +62,7 @@ export default function ServerProgress({
           clearInterval(interval);
           dispatch({ type: "COMPLETE" });
         }
-      }, 5);
+      }, 10);
 
       return () => clearInterval(interval);
     }
